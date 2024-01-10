@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: koa-app-deployment
+  namespace: application
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: koa-app
+  template:
+    metadata:
+      labels:
+        app: koa-app
+    spec:
+      containers:
+      - name: koa-app
+        image: tolgayakar/test:18
+        ports:
+        - name: koa-port
+          containerPort: 80
+          hostPort: 3000
+      tolerations:
+      - key: instance_type
+        value: spot
+        effect: NoSchedule
+        operator: Equal
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: team
+                operator: In
+                values:
+                - devops
+               
+      

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: koa-app-service
+  namespace: application
+  labels:
+    app: koa-app
+spec:
+  selector:
+    app: koa-app
+  ports:
+    - name: koa-port
+      protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: ClusterIP
